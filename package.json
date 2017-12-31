@@ -1,7 +1,7 @@
 {
   "name": "knobz-consul",
   "version": "0.0.0",
-  "description": "Consul storage for knobz's features flags.",
+  "description": "Storage engine for knobz's features flags backed by Consul KV.",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha test/test.js"

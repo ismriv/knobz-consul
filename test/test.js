@@ -28,7 +28,7 @@ describe('knobz-consul', () => {
   const knobzConsulInstance = knobzConsul({
     host: 'my-consul.dev',
     port: 8555,
-    prefix: 'conf/flags'
+    prefix: 'conf/flags/'
   });
 
   after(() => {
@@ -38,7 +38,7 @@ describe('knobz-consul', () => {
   describe('#fetchFeatures', () => {
     it('should return an empty array if Consul returns 0 items', () => {
       nock('http://my-consul.dev:8555')
-        .get('/v1/kv/conf/flags?recurse=true')
+        .get('/v1/kv/conf/flags/?recurse=true&stale=true')
         .reply(200, emptyResponse);
 
       return knobzConsulInstance.fetchFeatures().then((features) => {
@@ -48,7 +48,7 @@ describe('knobz-consul', () => {
 
     it('should return an array with 2 features', () => {
       nock('http://my-consul.dev:8555')
-        .get('/v1/kv/conf/flags?recurse=true')
+        .get('/v1/kv/conf/flags/?recurse=true&stale=true')
         .reply(200, twoFeaturesResponse);
 
       return knobzConsulInstance.fetchFeatures().then((features) => {
@@ -68,7 +68,7 @@ describe('knobz-consul', () => {
 
     it('should include features even if JSON parsing fails', () => {
       nock('http://my-consul.dev:8555')
-        .get('/v1/kv/conf/flags?recurse=true')
+        .get('/v1/kv/conf/flags/?recurse=true&stale=true')
         .reply(200, malformedFeatureResponse);
 
       return knobzConsulInstance.fetchFeatures().then((features) => {
