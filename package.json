@@ -1,0 +1,38 @@
+{
+  "name": "knobz-consul",
+  "version": "0.0.0",
+  "description": "Consul storage for knobz's features flags.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ismriv/knobz-consul.git"
+  },
+  "keywords": [
+    "consul",
+    "feature flag",
+    "feature flip",
+    "feature toggle",
+    "feature flagging",
+    "feature flipping",
+    "feature toggling",
+    "continuous integration"
+  ],
+  "author": "Ismael Rivera <me@ismaelrivera.es>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ismriv/knobz-consul/issues"
+  },
+  "homepage": "https://github.com/ismriv/knobz-consul#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^4.14.0",
+    "mocha": "^4.1.0",
+    "nock": "^9.1.5"
+  },
+  "dependencies": {
+    "axios": "^0.17.1"
+  }
+}
