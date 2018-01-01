@@ -61,6 +61,7 @@ Initialize a new Knobz's Consul client.
 * `ca` (String, optional): string with trusted certificates in PEM format
 * `timeout` (Integer, default: 10000): timeout in ms for read requests to Consul KV
 * `prefix` (String, default: /): prefix used to store the feature flags
+* `stripFileExtension` (Boolean, default: false): strip file extensions from key name
 
 ## License
 

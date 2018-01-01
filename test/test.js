@@ -13,7 +13,7 @@ const twoFeaturesResponse = [
     'Value': 'eyJkZXNjcmlwdGlvbiI6IlRoaXMgaXMgZmVhdHVyZSB0d28uIiwiZW5hYmxlZCI6ZmFsc2V9'
   }
 ];
-const malformedFeatureResponse = [
+const malformedFeaturesResponse = [
   {
     'Key': 'conf/flags/feature_malformed',
     'Value': 'eyJkZXNjcmlwdGlvbiI6IlRoaXMgaXM='
@@ -23,12 +23,19 @@ const malformedFeatureResponse = [
     'Value': 'eyJkZXNjcmlwdGlvbiI6IlRoaXMgaXMgZmVhdHVyZSBvbmUuIiwiZW5hYmxlZCI6dHJ1ZX0='
   }
 ];
+const withFileExtensionFeaturesResponse = [
+  {
+    'Key': 'conf/flags/feature_one.json',
+    'Value': 'eyJkZXNjcmlwdGlvbiI6IlRoaXMgaXMgZmVhdHVyZSBvbmUuIiwiZW5hYmxlZCI6dHJ1ZX0='
+  }
+];
 
 describe('knobz-consul', () => {
   const knobzConsulInstance = knobzConsul({
     host: 'my-consul.dev',
     port: 8555,
-    prefix: 'conf/flags/'
+    prefix: 'conf/flags/',
+    stripFileExtension: true
   });
 
   after(() => {
@@ -69,7 +76,7 @@ describe('knobz-consul', () => {
     it('should include features even if JSON parsing fails', () => {
       nock('http://my-consul.dev:8555')
         .get('/v1/kv/conf/flags/?recurse=true&stale=true')
-        .reply(200, malformedFeatureResponse);
+        .reply(200, malformedFeaturesResponse);
 
       return knobzConsulInstance.fetchFeatures().then((features) => {
         expect(features).to.eql([
@@ -79,7 +86,23 @@ describe('knobz-consul', () => {
           {
             id: 'feature_one',
             description: 'This is feature one.',
-            enabled: true,
+            enabled: true
+          }
+        ]);
+      });
+    });
+
+    it('should strip file extension from feature ID', () => {
+      nock('http://my-consul.dev:8555')
+        .get('/v1/kv/conf/flags/?recurse=true&stale=true')
+        .reply(200, withFileExtensionFeaturesResponse);
+
+      return knobzConsulInstance.fetchFeatures().then((features) => {
+        expect(features).to.eql([
+          {
+            id: 'feature_one',
+            description: 'This is feature one.',
+            enabled: true
           }
         ]);
       });
