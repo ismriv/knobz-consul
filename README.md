@@ -1,6 +1,6 @@
 # knobz-consul
 
-[![NPM version][npm-image]][npm-url]
+[![npm version](https://badge.fury.io/js/knobz-consul.svg)](https://badge.fury.io/js/knobz-consul)
 [![Build Status](https://travis-ci.org/ismriv/knobz-consul.svg?branch=master)](https://travis-ci.org/ismriv/knobz-consul)
 [![Dependency Status](https://gemnasium.com/badges/github.com/ismriv/knobz-consul.svg)](https://gemnasium.com/github.com/ismriv/knobz-consul)
 
