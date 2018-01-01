@@ -1,8 +1,9 @@
 # knobz-consul
-Storage engine for [knobz](https://github.com/ismriv/knobz)'s features flags library backed by Consul KV.
 
 [![Build Status](https://travis-ci.org/ismriv/knobz-consul.svg?branch=master)](https://travis-ci.org/ismriv/knobz-consul)
 [![Dependency Status](https://gemnasium.com/badges/github.com/ismriv/knobz-consul.svg)](https://gemnasium.com/github.com/ismriv/knobz-consul)
+
+Storage engine for [knobz](https://github.com/ismriv/knobz)'s features flags library backed by Consul KV.
 
 Store your feature flags as individual keys under a common prefix (e.g. config/feature-flags), as in the following example.
 
@@ -14,7 +15,7 @@ Store your feature flags as individual keys under a common prefix (e.g. config/f
 |    |    |-- featureTwo
 |    |-- database/
 |         |-- mysql
-+-- vault
++-- vault/
 ```
 
 __knobz-consul__ will then recursively read all keys with the same prefix, parse the value of each key to JSON, and return an array with all the features to be used by __knobz__.
