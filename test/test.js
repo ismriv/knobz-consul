@@ -21,12 +21,22 @@ const malformedFeaturesResponse = [
   {
     'Key': 'conf/flags/feature_one',
     'Value': 'eyJkZXNjcmlwdGlvbiI6IlRoaXMgaXMgZmVhdHVyZSBvbmUuIiwiZW5hYmxlZCI6dHJ1ZX0='
+  },
+  {
+    'Key': 'conf/flags/feature_null',
+    'Value': null
   }
 ];
 const withFileExtensionFeaturesResponse = [
   {
     'Key': 'conf/flags/feature_one.json',
     'Value': 'eyJkZXNjcmlwdGlvbiI6IlRoaXMgaXMgZmVhdHVyZSBvbmUuIiwiZW5hYmxlZCI6dHJ1ZX0='
+  }
+];
+const nullFolderResponse = [
+  {
+    'Key': 'conf/flags/',
+    'Value': null
   }
 ];
 
@@ -53,7 +63,7 @@ describe('knobz-consul', () => {
       });
     });
 
-    it('should return an array with 2 features', () => {
+    it('should return an array with 2 valid features', () => {
       nock('http://my-consul.dev:8555')
         .get('/v1/kv/conf/flags/?recurse=true&stale=true')
         .reply(200, twoFeaturesResponse);
@@ -73,7 +83,7 @@ describe('knobz-consul', () => {
       });
     });
 
-    it('should include features even if JSON parsing fails', () => {
+    it('should include features even if invalid JSON or null', () => {
       nock('http://my-consul.dev:8555')
         .get('/v1/kv/conf/flags/?recurse=true&stale=true')
         .reply(200, malformedFeaturesResponse);
@@ -87,6 +97,9 @@ describe('knobz-consul', () => {
             id: 'feature_one',
             description: 'This is feature one.',
             enabled: true
+          },
+          {
+            id: 'feature_null'
           }
         ]);
       });
@@ -105,6 +118,26 @@ describe('knobz-consul', () => {
             enabled: true
           }
         ]);
+      });
+    });
+
+    it('should return an empty array if key does not exist in Consul', () => {
+      nock('http://my-consul.dev:8555')
+        .get('/v1/kv/conf/flags/?recurse=true&stale=true')
+        .reply(404);
+
+      return knobzConsulInstance.fetchFeatures().then((features) => {
+        expect(features).to.eql([]);
+      });
+    });
+
+    it('should return an empty array if prefix folder is null', () => {
+      nock('http://my-consul.dev:8555')
+        .get('/v1/kv/conf/flags/?recurse=true&stale=true')
+        .reply(200, nullFolderResponse);
+
+      return knobzConsulInstance.fetchFeatures().then((features) => {
+        expect(features).to.eql([]);
       });
     });
   });
