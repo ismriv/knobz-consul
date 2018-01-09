@@ -1,6 +1,6 @@
 {
   "name": "knobz-consul",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Storage engine for knobz's features flags backed by Consul KV.",
   "main": "lib/index.js",
   "scripts": {
